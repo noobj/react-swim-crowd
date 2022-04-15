@@ -1,47 +1,54 @@
-import { Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Category } from '../interfaces/Category.interface';
-import CategoryList from './CategoryList';
+import { Line } from 'react-chartjs-2';
+import { Chart as ChartJS, Tooltip, Legend, CategoryScale, LinearScale, PointElement, LineElement, Title } from 'chart.js';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+);
+
+interface Entry {
+  amount: number;
+  time: string;
+}
 
 type Props = {
-  categories: Category[];
-  total: number;
+  data: Entry[];
+};
+
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top' as const,
+    }
+  },
 };
 
 export function MainContent(props: Props) {
-  const categoryLists = props.categories.map((category) => {
-    return <CategoryList key={category._id} category={category} />;
-  });
 
   return (
     <div className="m-2">
-      <h1 className="text-3xl font-bold">
-        {props.total === -1 ? <>loading...</> : <>Total: {props.total}</>}
-      </h1>
       <div className="flex sm:flex-row">
         <div className="flex-auto max-w-screen-sm">
-          <Pie data={turnCategoriesToChartData(props.categories)} />
+          <Line options={options} data={turnCategoriesToChartData(props.data)} />
         </div>
-        <div className="grow flex-col">{categoryLists}</div>
       </div>
     </div>
   );
 }
 
-function turnCategoriesToChartData(categories: Category[]) {
-  const categoryNames = categories.map(({ name }: { name: string }) => name);
-  const categoryPercentages = categories.map((v: Category) => v.percentage);
-  const categoryColors = categories.map((v: Category) => v.color);
+function turnCategoriesToChartData(entries: Entry[]) {
 
   return {
-    labels: categoryNames,
+    labels: entries.map((entry) => entry.time),
     datasets: [
       {
-        label: 'expense',
-        backgroundColor: categoryColors,
-        data: categoryPercentages
+        borderColor: 'rgb(255, 99, 132)',
+        data: entries.map((entry) => entry.amount)
       }
     ]
   };
