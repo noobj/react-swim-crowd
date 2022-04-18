@@ -12,6 +12,7 @@ export default function ControlPanel(props: Props) {
       <div className="m-2 relative flex items-center">
         <input
           type="image"
+          alt="logo"
           src="./favicon.jpg"
           onClick={() => window.location.reload()}
           className="w-10 align-bottom mr-2"

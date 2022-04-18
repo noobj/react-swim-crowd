@@ -8,21 +8,21 @@ export function App() {
   const [end, setEnd] = useState(format(new Date(), 'yyyy-MM-dd HH:mm'));
   const [response, setResponse] = useState([]);
 
-  async function fetchEntries() {
-    const params = new URLSearchParams();
-    params.set('start', start);
-    params.set('end', end);
-    const backendUrl = 'https://04xkzdmmq6.execute-api.ap-southeast-1.amazonaws.com/crowd/daily';
-
-    const res = await fetch(`${backendUrl}?${params.toString()}`);
-    if (res.status === 401) {
-      return null;
-    }
-    const data = await res.json();
-    return { data };
-  }
-
   useEffect(() => {
+    async function fetchEntries() {
+      const params = new URLSearchParams();
+      params.set('start', start);
+      params.set('end', end);
+      const backendUrl = 'https://04xkzdmmq6.execute-api.ap-southeast-1.amazonaws.com/crowd/daily';
+
+      const res = await fetch(`${backendUrl}?${params.toString()}`);
+      if (res.status === 401) {
+        return null;
+      }
+      const data = await res.json();
+      return { data };
+    }
+
     async function fetchContent() {
       const result = await fetchEntries();
       if (result === null) return;
