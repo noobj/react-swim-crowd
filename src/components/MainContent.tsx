@@ -8,6 +8,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
+  Legend
 );
 
 interface Entry {
@@ -15,8 +16,13 @@ interface Entry {
   time: string;
 }
 
+interface DailyEntry {
+  date: string;
+  entries: Entry[];
+}
+
 type Props = {
-  data: Entry[];
+  data: DailyEntry[];
 };
 
 export const options = {
@@ -41,15 +47,25 @@ export function MainContent(props: Props) {
   );
 }
 
-function turnCategoriesToChartData(entries: Entry[]) {
-
+function turnCategoriesToChartData(dailyEntries: DailyEntry[]) {
   return {
-    labels: entries.map((entry) => entry.time),
-    datasets: [
-      {
-        borderColor: 'rgb(255, 99, 132)',
-        data: entries.map((entry) => entry.amount)
-      }
-    ]
+    labels: generateLabels(),
+    datasets: dailyEntries.map((entry) => ({
+      label: entry.date,
+      borderColor: randomColors(),
+      data: entry.entries.map((e) => e.amount)
+    }))
   };
+}
+
+function generateLabels() {
+  const hours = ['07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21'];
+
+  return hours.reduce((pre: string[], curr: string) => {
+    return [...pre, curr + ':00', curr + ':30'];
+  }, [])
+}
+
+function randomColors() {
+  return '#' + Math.floor(Math.random() * 16777215).toString(16);
 }

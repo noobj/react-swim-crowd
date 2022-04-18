@@ -1,6 +1,6 @@
 import { SyntheticEvent, forwardRef } from 'react';
 import DatePicker from 'react-datepicker';
-import { format, setHours, setMinutes } from 'date-fns';
+import { format } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 
 function DatePickerInput(props: Props) {
   const handleDatePickerChange = (date: Date) => {
-    props.onChange(props.isStart, format(date, 'yyyy-MM-dd HH:mm'));
+    props.onChange(props.isStart, format(date, 'yyyy-MM-dd'));
   };
 
   const handleMouseEnter = (e: SyntheticEvent<HTMLElement>) => {
@@ -44,14 +44,11 @@ function DatePickerInput(props: Props) {
   return (
     <div className="inline-block w-fit">
       <DatePicker
-        dateFormat="MM-dd HH:mm"
+        dateFormat="MM-dd"
         className="text-black"
-        showTimeSelect
         selected={new Date(props.value)}
         onChange={handleDatePickerChange}
         showMonthDropdown
-        minTime={setHours(setMinutes(new Date(), 0), 7)}
-        maxTime={setHours(setMinutes(new Date(), 0), 22)}
         customInput={<ExampleCustomInput />}
       />
     </div>
