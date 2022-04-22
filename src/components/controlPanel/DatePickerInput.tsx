@@ -1,7 +1,7 @@
 import { SyntheticEvent, forwardRef, useContext } from 'react';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
-import { DateContext } from '../App';
+import { DateContext } from '../../App';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type Props = {

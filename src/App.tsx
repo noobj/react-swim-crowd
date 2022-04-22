@@ -1,7 +1,7 @@
 import { createContext, useEffect, useReducer, useState } from 'react';
 import { format, subDays } from 'date-fns';
-import { ControlPanel } from './components/ControlPanel';
-import { MainContent } from './components/MainContent';
+import { ControlPanel } from './components/controlPanel/ControlPanel';
+import { MainContent } from './components/content/MainContent';
 
 type InitialStateType = {
   start: string;
