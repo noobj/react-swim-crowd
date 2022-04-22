@@ -1,4 +1,5 @@
 import { DatePickerInput } from './DatePickerInput';
+import { WeekButton } from './WeekButton';
 
 export function ControlPanel() {
   return (
@@ -14,6 +15,8 @@ export function ControlPanel() {
         <DatePickerInput isStart={true}/>
         <i className="bi bi-arrow-right text-xl ml-3 mr-3" />
         <DatePickerInput isStart={false}/>
+        <WeekButton isLast={true}/>
+        <WeekButton isLast={false}/>
       </div>
     </div>
   );

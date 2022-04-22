@@ -1,5 +1,5 @@
 import { createContext, useEffect, useReducer, useState } from 'react';
-import { format, subDays } from 'date-fns';
+import { format, startOfWeek, endOfWeek } from 'date-fns';
 import { ControlPanel } from './components/controlPanel/ControlPanel';
 import { MainContent } from './components/content/MainContent';
 
@@ -9,8 +9,8 @@ type InitialStateType = {
 }
 
 const initialState = {
-  start: format(subDays(new Date(), 3), 'yyyy-MM-dd HH:mm'),
-  end: format(new Date(), 'yyyy-MM-dd HH:mm')
+  start: format(startOfWeek(new Date(), {weekStartsOn: 1}), 'yyyy-MM-dd HH:mm'),
+  end: format(endOfWeek(new Date(), {weekStartsOn: 1}), 'yyyy-MM-dd HH:mm')
 };
 
 function reducer(state: {start: string, end: string}, action: {isStart: boolean, value: string}) {
