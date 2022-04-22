@@ -1,12 +1,6 @@
-import DatePickerInput from './DatePickerInput';
+import { DatePickerInput } from './DatePickerInput';
 
-type Props = {
-  start: string;
-  end: string;
-  changeHandler: (isStart: boolean, dateStr: string) => void;
-};
-
-export default function ControlPanel(props: Props) {
+export function ControlPanel() {
   return (
     <div className="border-b border-slate-900/10 dark:border-slate-300/10">
       <div className="m-2 relative flex items-center">
@@ -17,9 +11,9 @@ export default function ControlPanel(props: Props) {
           onClick={() => window.location.reload()}
           className="w-10 align-bottom mr-2"
         />
-        <DatePickerInput isStart={true} value={props.start} onChange={props.changeHandler} />
+        <DatePickerInput isStart={true}/>
         <i className="bi bi-arrow-right text-xl ml-3 mr-3" />
-        <DatePickerInput isStart={false} value={props.end} onChange={props.changeHandler} />
+        <DatePickerInput isStart={false}/>
       </div>
     </div>
   );

@@ -1,7 +1,12 @@
-import { useEffect, useReducer, useState } from 'react';
+import { createContext, useEffect, useReducer, useState } from 'react';
 import { format, subDays } from 'date-fns';
-import ControlPanel from './components/ControlPanel';
+import { ControlPanel } from './components/ControlPanel';
 import { MainContent } from './components/MainContent';
+
+type InitialStateType = {
+  start: string;
+  end: string;
+}
 
 const initialState = {
   start: format(subDays(new Date(), 3), 'yyyy-MM-dd HH:mm'),
@@ -19,10 +24,16 @@ function reducer(state: {start: string, end: string}, action: {isStart: boolean,
   }
 }
 
+export const DateContext = createContext<{
+  state: InitialStateType;
+  dispatch: React.Dispatch<any>;
+}>({
+  state: initialState,
+  dispatch: () => null
+});
+
 export function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  // const [start, setStart] = useState(format(subDays(new Date(), 3), 'yyyy-MM-dd HH:mm'));
-  // const [end, setEnd] = useState(format(new Date(), 'yyyy-MM-dd HH:mm'));
   const [response, setResponse] = useState([]);
 
   useEffect(() => {
@@ -51,13 +62,11 @@ export function App() {
     fetchContent();
   }, [state]);
 
-  const changeHandler = async (isStart: boolean, dateStr: string) => {
-    dispatch({ isStart, value: dateStr})
-  };
-
   return (
     <>
-      <ControlPanel start={state.start} end={state.end} changeHandler={changeHandler} />
+      <DateContext.Provider value={{state, dispatch}}>
+        <ControlPanel/>
+      </DateContext.Provider>
       <MainContent data={response}/>
     </>
   );

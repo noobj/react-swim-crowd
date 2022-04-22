@@ -1,17 +1,19 @@
-import { SyntheticEvent, forwardRef } from 'react';
+import { SyntheticEvent, forwardRef, useContext } from 'react';
 import DatePicker from 'react-datepicker';
 import { format } from 'date-fns';
+import { DateContext } from '../App';
 import 'react-datepicker/dist/react-datepicker.css';
 
 type Props = {
   isStart: boolean;
-  value: string;
-  onChange: (isStart: boolean, dateStr: string) => void;
 };
 
-function DatePickerInput(props: Props) {
+export function DatePickerInput(props: Props) {
+  const dateContext = useContext(DateContext);
+  const defaultValue = props.isStart ? dateContext.state.start : dateContext.state.end;
+
   const handleDatePickerChange = (date: Date) => {
-    props.onChange(props.isStart, format(date, 'yyyy-MM-dd'));
+    dateContext.dispatch({isStart: props.isStart, value: format(date, 'yyyy-MM-dd')});
   };
 
   const handleMouseEnter = (e: SyntheticEvent<HTMLElement>) => {
@@ -46,7 +48,7 @@ function DatePickerInput(props: Props) {
       <DatePicker
         dateFormat="MM-dd"
         className="text-black"
-        selected={new Date(props.value)}
+        selected={new Date(defaultValue)}
         onChange={handleDatePickerChange}
         showMonthDropdown
         customInput={<ExampleCustomInput />}
@@ -54,5 +56,3 @@ function DatePickerInput(props: Props) {
     </div>
   );
 }
-
-export default DatePickerInput;
