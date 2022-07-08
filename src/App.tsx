@@ -9,8 +9,8 @@ type InitialStateType = {
 }
 
 const initialState = {
-  start: format(startOfWeek(new Date(), {weekStartsOn: 1}), 'yyyy-MM-dd HH:mm'),
-  end: format(endOfWeek(new Date(), {weekStartsOn: 1}), 'yyyy-MM-dd HH:mm')
+  start: format(startOfWeek(new Date(), {weekStartsOn: 1}), 'yyyy-MM-dd'),
+  end: format(endOfWeek(new Date(), {weekStartsOn: 1}), 'yyyy-MM-dd')
 };
 
 function reducer(state: {start: string, end: string}, action: {isStart: boolean, value: string}) {
@@ -41,7 +41,7 @@ export function App() {
       const params = new URLSearchParams();
       params.set('start', state.start);
       params.set('end', state.end);
-      const backendUrl = 'https://04xkzdmmq6.execute-api.ap-southeast-1.amazonaws.com/crowd/daily';
+      const backendUrl = 'https://n1knsxts80.execute-api.ap-southeast-1.amazonaws.com/crowd/daily';
 
       const res = await fetch(`${backendUrl}?${params.toString()}`);
       if (res.status === 401) {
