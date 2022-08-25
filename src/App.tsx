@@ -41,7 +41,7 @@ export function App() {
       const params = new URLSearchParams();
       params.set('start', state.start);
       params.set('end', state.end);
-      const backendUrl = 'https://n1knsxts80.execute-api.ap-southeast-1.amazonaws.com/crowd/daily';
+      const backendUrl = 'https://u6z3hkcpda.execute-api.ap-southeast-1.amazonaws.com/crowd/daily';
 
       const res = await fetch(`${backendUrl}?${params.toString()}`);
       if (res.status === 401) {
